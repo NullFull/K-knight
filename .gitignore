@@ -44,6 +44,14 @@ pip-selfcheck.json
 # .idea/*.iml
 # .idea/modules
 
+.idea/$CACHE_FILE$
+.idea/.gitignore
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/ynnews.iml
+
 # CMake
 cmake-build-*/
 
