@@ -1,0 +1,4 @@
+Django
+beautifulsoup4
+django-q
+slackclient
