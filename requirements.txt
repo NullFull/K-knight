@@ -2,3 +2,4 @@ Django
 beautifulsoup4
 django-q
 slackclient
+django-import-export
