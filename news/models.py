@@ -30,6 +30,18 @@ class Article(models.Model):
 
         return '본문 미 연결'
 
+    @classmethod
+    def is_exist(cls, url):
+        return cls.objects.filter(url=url).exists()
+
+    @classmethod
+    def create_new(cls, press, url, title, datetime):
+        if cls.is_exist(url=url):
+            return None
+
+        primary = cls.objects.create(press=press, url=url, created_at=datetime)
+        return ArticleContent.objects.create(article=primary, title=title, content=None)
+
 
 class ArticleContent(models.Model):
     article = models.ForeignKey('Article', on_delete=models.CASCADE)

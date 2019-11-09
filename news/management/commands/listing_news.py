@@ -8,6 +8,9 @@ from bs4 import BeautifulSoup
 from django.core.management import BaseCommand
 from django.utils import timezone
 
+from news.models import Article
+from organization.models import ThePress
+
 
 class Command(BaseCommand):
     help = '연합뉴스 최신기사 리스트를 DB에 추가한다'
@@ -56,5 +59,11 @@ class Command(BaseCommand):
                 datetime_obj = datetime.datetime.strptime(datetime_string, '%m-%d %H:%M').replace(year=2019)
                 datetime_obj = timezone.make_aware(datetime_obj, timezone=pytz.timezone('Asia/Seoul'), is_dst=False)
 
+                # FIXME: 처음은 대부분 연합뉴스를 등록할 것을 예상합니다.
+                press = ThePress.objects.first()
+                if not Article.create_new(press=press, url=url, title=title, datetime=datetime_obj):
+                    return False
+
                 print(f'연합뉴스: {datetime_obj}: {title}: {url}')
                 # Article.perceive('https://' + url, title, datetime_obj)
+
