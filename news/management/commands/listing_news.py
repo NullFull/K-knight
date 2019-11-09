@@ -69,4 +69,3 @@ class Command(BaseCommand):
                 # Article.perceive('https://' + url, title, datetime_obj)
 
             time.sleep(10)
-            

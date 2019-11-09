@@ -9,6 +9,10 @@ class ThePress(models.Model):
     title = models.CharField('언론사 이름', max_length=128)
     main_url = models.URLField('대표 홈페이지', unique=True)
     mobile_url = models.URLField('모바일 홈페이지', unique=True)
+    encoding = models.CharField('페이지 인코딩', max_length=8, default='UTF-8', choices=(
+        ('UTF-8', 'UTF-8'),
+        ('euc-kr', 'euc-kr'),
+    ))
 
     def __str__(self):
         return self.title
