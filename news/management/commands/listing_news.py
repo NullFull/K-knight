@@ -1,5 +1,6 @@
 import datetime
 import random
+import time
 from urllib.parse import urlparse
 
 import pytz
@@ -67,3 +68,5 @@ class Command(BaseCommand):
                 print(f'연합뉴스: {datetime_obj}: {title}: {url}')
                 # Article.perceive('https://' + url, title, datetime_obj)
 
+            time.sleep(10)
+            
