@@ -1,5 +1,7 @@
-from django.db import models
 import re
+
+from django.conf import settings
+from django.db import models
 
 
 def _match(rule, string):
@@ -124,3 +126,16 @@ class MatchRule(models.Model):
             return None
 
         return matched_rule
+
+#
+# class AnalysisResult(models.Model):
+#     # article = models.ForeignKey('ArticleContent', on_delete=models.CASCADE)
+#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+#     com_result_title = models.ForeignKey('MatchRule', default=None, blank=True, verbose_name='제목 기준',
+#                                          on_delete=models.SET_DEFAULT)
+#     com_result_content = models.ForeignKey('MatchRule', default=None, blank=True, verbose_name='본문 기준',
+#                                            on_delete=models.SET_DEFAULT)
+#     human_result_title = models.BooleanField('제목 사람 판단 결과', default=False)
+#     human_result_content = models.BooleanField('내용 사람 판단 결과', default=False)
+#     created_at = models.DateTimeField('판단 시간', auto_now_add=True)
+#     updated_at = models.DateTimeField('사람 판단 시간', default=None, blank=True)

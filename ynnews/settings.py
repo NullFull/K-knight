@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'import_export',
     'analysis',
     'organization',
+    'news',
 ]
 
 MIDDLEWARE = [
