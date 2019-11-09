@@ -3,3 +3,6 @@ beautifulsoup4
 django-q
 slackclient
 django-import-export
+requests
+bs4
+lxml
