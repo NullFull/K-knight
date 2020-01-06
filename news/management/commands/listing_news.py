@@ -15,12 +15,9 @@ from organization.models import ThePress
 
 class Command(BaseCommand):
     help = '연합뉴스 최신기사 리스트를 DB에 추가한다'
-    press = None
     name = '연합뉴스'
+    press = ThePress.find_by_title(title=name)
     url_base = 'https://www.yna.co.kr'
-
-    headers = {'User-Agent': 'Mozilla/5.0 ' + '(Windows NT 10.0; Win64; x64) ' +
-                             'AppleWebKit/537.36 (KHTML, like Gecko) ' + 'Chrome/60.0.3112.113 Safari/537.36'}
 
     # def add_arguments(self, parser):
     #     parser.add_argument('press_keyword', type=str)
@@ -36,13 +33,16 @@ class Command(BaseCommand):
 
         for url in urls:
             try:
-                _response = requests.get(url, headers=self.headers)
-                # _response.encoding = self.press.encoding()
+                _header = {
+                    'User-Agent': self.press.user_agent
+                }
+                _response = requests.get(url, headers=_header)
+                _response.encoding = self.press.encoding
                 _response.close()
 
             except requests.exceptions.ConnectionError as e:
                 _second = random.randrange(5 * 60, 15 * 60)
-                # sleep_with_message(_second, '리스트가 읽히지 않습니다. 차단을 피하기 위해서 긴 대기 시간을 가집니다.')
+                time.sleep(_second)
                 exit()
 
             soup_body = BeautifulSoup(_response.text, 'lxml')
@@ -60,9 +60,7 @@ class Command(BaseCommand):
                 datetime_obj = datetime.datetime.strptime(datetime_string, '%m-%d %H:%M').replace(year=2019)
                 datetime_obj = timezone.make_aware(datetime_obj, timezone=pytz.timezone('Asia/Seoul'), is_dst=False)
 
-                # FIXME: 처음은 대부분 연합뉴스를 등록할 것을 예상합니다.
-                press = ThePress.objects.first()
-                if not Article.create_new(press=press, url=url, title=title, datetime=datetime_obj):
+                if not Article.create_new(press=self.press, url=url, title=title, datetime=datetime_obj):
                     return False
 
                 print(f'연합뉴스: {datetime_obj}: {title}: {url}')

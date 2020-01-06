@@ -13,9 +13,14 @@ class ThePress(models.Model):
         ('UTF-8', 'UTF-8'),
         ('euc-kr', 'euc-kr'),
     ))
+    user_agent = models.CharField('UserAgent', max_length=128)
 
     def __str__(self):
         return self.title
+
+    @classmethod
+    def find_by_title(cls, title):
+        return cls.objects.filter(title=title).first()
 
 
 class PressMixin(object):
