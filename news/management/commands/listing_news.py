@@ -60,8 +60,9 @@ class Command(BaseCommand):
                 datetime_obj = datetime.datetime.strptime(datetime_string, '%m-%d %H:%M').replace(year=2019)
                 datetime_obj = timezone.make_aware(datetime_obj, timezone=pytz.timezone('Asia/Seoul'), is_dst=False)
 
-                if not Article.create_new(press=self.press, url=url, title=title, datetime=datetime_obj):
-                    return False
+                if Article.create_new(press=self.press, url=url, title=title, datetime=datetime_obj) is None:
+                    time.sleep(10)
+                    continue
 
                 print(f'연합뉴스: {datetime_obj}: {title}: {url}')
                 # Article.perceive('https://' + url, title, datetime_obj)
